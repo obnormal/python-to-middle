@@ -1,3 +1,6 @@
+import weakref
+
+
 class MyObject:
 
     def __init__(self, name) -> None:
@@ -6,9 +9,22 @@ class MyObject:
 
 
 def cache(func):
-    raise NotImplementedError
+
+    def wrap(name):
+        result = func(name)
+
+        if not hasattr(wrap, '_cache'):
+            wrap._cache = weakref.WeakValueDictionary()
+
+        wrap._cache[name] = result
+
+        return result
+
+    return wrap
 
 
 @cache
 def create_object(name):
     return MyObject(name)
+
+
