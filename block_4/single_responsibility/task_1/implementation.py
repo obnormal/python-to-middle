@@ -12,7 +12,19 @@ class Record:
         return {self.code: self.name}
 
 
-class RecordStore:
+class DataHandlerMixin:
+    def to_json(self):
+        if hasattr(self, '_records'):
+            result = json.dumps([x.as_dict() for x in self._records])
+
+            return result
+
+    def save_to_file(self, path):
+        with open(path, 'w') as f:
+            f.write(self.to_json())
+
+
+class RecordStore(DataHandlerMixin):
 
     def __init__(self) -> None:
         super().__init__()
@@ -24,11 +36,4 @@ class RecordStore:
     def del_record(self, record):
         self._records.remove(record)
 
-    def to_json(self):
-        result = json.dumps([x.as_dict() for x in self._records])
 
-        return result
-
-    def save_to_file(self, path):
-        with open(path, 'w') as f:
-            f.write(self.to_json())
