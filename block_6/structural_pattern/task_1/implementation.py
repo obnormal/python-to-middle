@@ -59,6 +59,7 @@ class MasterCard:
         """
         self.money += quantity
 
+    @property
     def current_money(self):
         """
             Запрос текущего количества денег на счете
@@ -101,10 +102,28 @@ class PaymentAdapter(ABC):
 
 class VisaPaymentAdapter(PaymentAdapter):
     """Адаптер платежной системы Visa"""
-    # нужно добавить свой код сюда
+
+    def send(self, money):
+        self.payment_system.transfer_money(money)
+
+    def receive(self, money):
+        self.payment_system.receive_money(money)
+
+    @property
+    def money(self):
+        return self.payment_system.balance
 
 
 class MasterCardPaymentAdapter(PaymentAdapter):
     """Адаптер платежной системы MasterCard"""
-    # нужно добавить свой код сюда
+
+    def send(self, money):
+        self.payment_system.take(money)
+
+    def receive(self, money):
+        self.payment_system.put(money)
+
+    @property
+    def money(self):
+        return self.payment_system.current_money
 
