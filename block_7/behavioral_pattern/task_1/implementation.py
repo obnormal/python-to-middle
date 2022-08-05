@@ -22,19 +22,59 @@ class ArithmeticOperation:
 
 class MinusOperation(ArithmeticOperation):
     """Операция вычитания"""
-    # нужно добавить свой код сюда
+
+    def calculate(self, expression):
+        operands = expression.split('-')
+
+        if len(operands) == 2:
+            left_operand, right_operand = map(int, operands)
+            result = left_operand - right_operand
+        else:
+            result = self._next_handler.calculate(expression)
+
+        return result
 
 
 class PlusOperation(ArithmeticOperation):
     """Операция сложения"""
-    # нужно добавить свой код сюда
+
+    def calculate(self, expression):
+        operands = expression.split('+')
+
+        if len(operands) == 2:
+            left_operand, right_operand = map(int, operands)
+            result = left_operand + right_operand
+        else:
+            result = self._next_handler.calculate(expression)
+
+        return result
 
 
 class DevideOperation(ArithmeticOperation):
     """Операция деления"""
-    # нужно добавить свой код сюда
+
+    def calculate(self, expression):
+        operands = expression.split('/')
+
+        if len(operands) == 2:
+            left_operand, right_operand = map(int, operands)
+            result = left_operand / right_operand
+        else:
+            result = self._next_handler.calculate(expression)
+
+        return result
 
 
 class MultiplyOperation(ArithmeticOperation):
-    """Опрация умножения"""
-    # нужно добавить свой код сюда
+    """Операция умножения"""
+
+    def calculate(self, expression):
+        operands = expression.split('*')
+
+        if len(operands) == 2:
+            left_operand, right_operand = map(int, operands)
+            result = left_operand * right_operand
+        else:
+            result = self._next_handler.calculate(expression)
+
+        return result
