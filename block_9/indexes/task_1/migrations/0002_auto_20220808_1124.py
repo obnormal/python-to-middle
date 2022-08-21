@@ -9,8 +9,8 @@ from django.core import (
 def load_data(apps, schema_editor):
     Employee = apps.get_model('indexes_task_1', 'Employee')  
     if not Employee.objects.exists():
-
-        with open('test.json', 'r') as f:
+        path = '/opt/project/block_9/indexes/task_1/migrations/test.json'
+        with open(path, 'r') as f:
             data = f.read()
 
         for obj in serializers.deserialize("json", data):

@@ -1,6 +1,8 @@
+from django.contrib.postgres.indexes import GinIndex, OpClass
 from django.db import (
     models,
 )
+from django.db.models.functions import Upper
 
 
 class Employee(models.Model):
@@ -19,3 +21,16 @@ class Employee(models.Model):
 
     class Meta:
         db_table = 'indexes_employees'
+
+        indexes = [
+            models.Index(fields=['fname', 'iname', 'oname']),
+            models.Index(fields=['country']),
+            models.Index(fields=['begin']),
+            models.Index(fields=['end']),
+            # Индексы для полнотекстового поиска
+            models.Index(Upper('additional_info'), name='additional_info_upper_index'),
+            GinIndex(
+                OpClass(Upper('additional_info'), name='gin_trgm_ops'),
+                name='additional_info_gin_idx',
+            ),
+        ]
